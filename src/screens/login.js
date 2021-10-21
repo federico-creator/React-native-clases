@@ -3,16 +3,12 @@ import { StyleSheet,Text, View, TouchableOpacity, Image, FlatList, ActivityIndic
 
 class Login extends Component{
 
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state={
             email:"",
             pasword: "",
         }
-    }
-    cargarDatos(){
-        console.log(this.state.email);
-        console.log(this.state.pasword);
     }
 
     render(){
@@ -35,8 +31,9 @@ class Login extends Component{
                     onChangeText={text => this.setState({pasword:text})}
                     secureTextEntry={true}
                 />
+                {this.props.error==""?"": <Text style={styles.textoerror}>{this.props.error}</Text>}
 
-                <TouchableOpacity style={styles.touchable} onPress={()=> this.cargarDatos()}>
+                <TouchableOpacity style={styles.touchable} onPress={()=> this.props.loguearse(this.state.email, this.state.pasword)}>
                     <Text style={styles.texto}>Loguearse</Text>
                 </TouchableOpacity>
 
@@ -78,6 +75,9 @@ const styles = StyleSheet.create({
         paddingHorizontal:10,
         paddingVertical:15,
         marginVertical:10,
+    },
+    textoerror: {
+        color: "red"
     }
 })
 
