@@ -3,6 +3,7 @@ import { StyleSheet,Text, View, TouchableOpacity, Image, FlatList, ActivityIndic
 import Contador from "../components/contador"
 import Card from '../components/card';
 import Comentario from '../components/comentario';
+import { db } from '../firebase/config';
 
 class Home extends Component{
 
@@ -11,11 +12,13 @@ class Home extends Component{
         this.state={
             personajes: [],
             cargado: false,
-            email:""
+            email:"",
+            post:[]
         }
     }
 
     componentDidMount(){
+        
 
         fetch("https://rickandmortyapi.com/api/character")
         .then(results=> results.json())
@@ -25,7 +28,7 @@ class Home extends Component{
             }, this.setState({
                 cargado: true
             }))
-        })
+        }) 
     }
 
     cargando(){
@@ -60,14 +63,12 @@ class Home extends Component{
         <Text style={styles.texto}>clickea aca!</Text>
       </TouchableOpacity>
       <Contador/>
-      {this.state.cargado==false? <ActivityIndicator size={50} color="green"/>:
+     {this.state.cargado==false? <ActivityIndicator size={50} color="green"/>:
       <FlatList  data={this.state.personajes}
       keyExtractor={(personaje)=> personaje.id.toString()}
       renderItem={(charac) => <Card cara={charac}/>} >
 
-      </FlatList>}
-
-      <Comentario/>
+      </FlatList>} 
     </View>)
     }
    

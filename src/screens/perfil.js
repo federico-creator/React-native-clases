@@ -10,16 +10,17 @@ class Login extends Component{
             
         }
     }
-    
-
     render(){
-        console.log(this.props.info)
         return(
         < >
 
-            <Text > Bienvenido: {this.props.info.user.email} </Text>
+            {/* <Text > Bienvenido: {this.props.info.user.email} </Text>
             <Text > Fecha de creación: {this.props.info.user.metadata.creationTime} </Text>
-            <Text > Fecha de último loguin: {this.props.info.user.metadata.lastSignInTime} </Text>
+            <Text > Fecha de último loguin: {this.props.info.user.metadata.lastSignInTime} </Text> 
+            esto ya no sirve, lo remplazamos*/}
+            <Text > Bienvenido: {auth.currentUser.email} </Text>
+            <Text > Fecha de creación: {auth.currentUser.metadata.creationTime} </Text>
+            <Text > Fecha de último loguin: {auth.currentUser.metadata.lastSignInTime} </Text>
 
             <TouchableOpacity style={styles.touchable} onPress={()=> this.props.desloguearse()}>
                     <Text style={styles.texto}>Desloguearse</Text>

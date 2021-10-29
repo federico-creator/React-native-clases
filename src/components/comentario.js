@@ -3,14 +3,11 @@ import { StyleSheet,Text, View, TouchableOpacity, Image, FlatList, ActivityIndic
 
 class Comentario extends Component{
 
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state={
             comentario:"",
         }
-    }
-    cargarDatos(){
-        console.log(this.state.comentario);
     }
 
     render(){
@@ -20,12 +17,12 @@ class Comentario extends Component{
 
                 <TextInput style={styles.input}
                     keyboardType="default"
-                    placeholder="Escriba su comentario"
+                    placeholder="Escriba un comentario"
                     onChangeText={text => this.setState({comentario:text})}
                 />
 
 
-                <TouchableOpacity style={styles.touchable} onPress={()=> this.cargarDatos()}>
+                <TouchableOpacity style={styles.touchable} onPress={()=> this.props.comentario(this.state.comentario)}>
                     <Text style={styles.texto}>Escribir comentario</Text>
                 </TouchableOpacity>
 
