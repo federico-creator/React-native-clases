@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import { StyleSheet,Text, View, TouchableOpacity, Image, FlatList, ActivityIndicator, TextInput } from 'react-native';
+import { StyleSheet,Text, View, TouchableOpacity, Image, FlatList, ActivityIndicator, TextInput, Modal } from 'react-native';
 import { db, auth } from '../firebase/config';
 import firebase from 'firebase';
 import "firebase/firestore"
 import Comentario from './comentario';
+import SeccionModal from './seccionModal';
 
 
 class Posts extends Component{
@@ -13,6 +14,8 @@ class Posts extends Component{
         this.state={
             liked: false,
             /* likes: 0  lo del like se puede hacer por estado actualizando el valor, o por lo que nos llega de la base de datos como se hace en el render likes*/
+            ShowModal: false,
+            textoModal: "Ver comentarios"
             
 
         }
@@ -32,7 +35,7 @@ class Posts extends Component{
         
     }
 
-    Likear(item,data){
+    Likear(item){
          if (this.state.liked == false) {
             var agregarLike = db.collection("posteos").doc(`${item.id}`);
 
@@ -72,9 +75,9 @@ class Posts extends Component{
     }
 
     comentario(coment){
-        let cometariousuario= {"texto": coment,
-                                "usuario": auth.currentUser.email}
-                                console.log(cometariousuario);
+        let cometariousuario= {texto: coment,
+                                usuario: auth.currentUser.email,
+                                fechaDeCreacion: Date.now()}
         var agregarComentario = db.collection("posteos").doc(`${this.props.data.item.id}`);
 
         return agregarComentario.update({
@@ -89,11 +92,26 @@ class Posts extends Component{
         
     }
 
+    modal(){
+        if (this.state.ShowModal) {
+            this.setState({
+                ShowModal: false,
+                textoModal: "Ver Comentarios"
+            })   
+        }
+        else{
+            this.setState({
+                ShowModal: true,
+                textoModal: "Ocultar Comentarios"
+            })  
+        }
+
+    }
+
 
     render(){
         let {item} = this.props.data
         let {data} = item
-        console.log(data.comments);
         return(
         <View style={styles.container}>
             <Text>Usuario: {data.user}</Text>
@@ -109,14 +127,7 @@ class Posts extends Component{
             } 
             <Comentario comentario={(coment)=>this.comentario(coment)} /> 
 
-             {data.comments.length== 0? "no existen comentarios, empeza a escribirlos":
-                <FlatList  data={data.comments}
-                keyExtractor= {(data)=> (data.usuario)}
-                renderItem={({data})=> <Text>{data.usuario} </Text>}  />
-                    
-                
-    
-            } 
+            <SeccionModal modal={()=> this.modal()} ShowModal={this.state.ShowModal} textoModal={this.state.textoModal} data={data}/>
         </View>)
     }
    
@@ -165,7 +176,19 @@ const styles = StyleSheet.create({
         paddingHorizontal:10,
         paddingVertical:15,
         marginVertical:10,
-    }
+    },
+    touchable3:{
+        textAlign:"center",
+        padding: 5,
+        backgroundColor: "gray",
+        marginBottom: 10,
+        borderRadius:4,
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        borderStyle:"solid",
+        borderWidth:1,
+        borderColor:"gray"
+    },
 })
 
 export default Posts

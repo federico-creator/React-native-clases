@@ -10,6 +10,14 @@ class Comentario extends Component{
         }
     }
 
+    coment(){
+        this.props.comentario(this.state.comentario)
+        .then(()=>this.setState({
+            comentario: ""
+        }))
+        
+    }
+
     render(){
         return(
         <View style={styles.container}>
@@ -19,10 +27,12 @@ class Comentario extends Component{
                     keyboardType="default"
                     placeholder="Escriba un comentario"
                     onChangeText={text => this.setState({comentario:text})}
+                    value={this.state.comentario}
+
                 />
 
 
-                <TouchableOpacity style={styles.touchable} onPress={()=> this.props.comentario(this.state.comentario)}>
+                <TouchableOpacity style={styles.touchable} onPress={()=> this.coment(this.state.comentario)}>
                     <Text style={styles.texto}>Escribir comentario</Text>
                 </TouchableOpacity>
 
