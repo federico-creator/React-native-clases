@@ -5,6 +5,7 @@ import firebase from 'firebase';
 import "firebase/firestore"
 import Comentario from './comentario';
 import SeccionModal from './seccionModal';
+import SeccionModalLike from './SeccionModalLike';
 
 
 class Posts extends Component{
@@ -15,7 +16,9 @@ class Posts extends Component{
             liked: false,
             /* likes: 0  lo del like se puede hacer por estado actualizando el valor, o por lo que nos llega de la base de datos como se hace en el render likes*/
             ShowModal: false,
-            textoModal: "Ver comentarios"
+            textoModal: "Ver comentarios",
+            likeModal: false,
+            likeTextoModal: "Ver likes"
             
 
         }
@@ -108,6 +111,22 @@ class Posts extends Component{
 
     }
 
+    modalLike(){
+        if (this.state.likeModal) {
+            this.setState({
+                likeModal: false,
+                likeTextoModal: "Ver Likes"
+            })   
+        }
+        else{
+            this.setState({
+                likeModal: true,
+                likeTextoModal: "Ocultar Likes"
+            })  
+        }
+
+    }
+
 
     render(){
         let {item} = this.props.data
@@ -125,6 +144,9 @@ class Posts extends Component{
                 <Text style={styles.texto}>Quitar Like</Text>
             </TouchableOpacity>
             } 
+
+            <SeccionModalLike modal={()=> this.modalLike()} ShowModal={this.state.likeModal} textoModal={this.state.likeTextoModal} data={data}/>
+
             <Comentario comentario={(coment)=>this.comentario(coment)} /> 
 
             <SeccionModal modal={()=> this.modal()} ShowModal={this.state.ShowModal} textoModal={this.state.textoModal} data={data}/>

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { StyleSheet,Text, View, TouchableOpacity, Image, FlatList, ActivityIndicator, TextInput } from 'react-native';
 import {auth, db} from "../firebase/config"
+import MyCamera from '../components/MyCamera';
 
 
 class NewPostForm extends Component{
@@ -9,7 +10,9 @@ class NewPostForm extends Component{
         super(props)
         this.state={
             title: "",
-            description:""
+            description:"",
+            ShowCamera: true,
+            url:""
             
         }
     }
@@ -21,7 +24,8 @@ class NewPostForm extends Component{
             title: this.state.title ,
             description: this.state.description ,
             likes: [],
-            comments: []
+            comments: [],
+            photo: this.state.url
         })
         .then(() => {
             console.log("se posteo exitosamente")
@@ -32,9 +36,18 @@ class NewPostForm extends Component{
         })
         .catch((err)=>console.log(err))
     }
+
+    onImageUpload(url) {
+        this.setState({
+            url: url,
+            ShowCamera: false
+        })
+    }
     render(){
         return(
         < >
+                {this.state.ShowCamera? <MyCamera onImageUpload={(url)=> this.onImageUpload(url)}/>:
+                < >
                 <TextInput style={styles.input}
                     keyboardType="default"
                     placeholder="Título"
@@ -52,7 +65,7 @@ class NewPostForm extends Component{
 
                 <TouchableOpacity style={styles.touchable}   onPress={()=> this.submitPost()} >
                     <Text style={styles.texto}>Escribir comentario</Text>
-                </TouchableOpacity>
+                </TouchableOpacity></>}
 
 
             

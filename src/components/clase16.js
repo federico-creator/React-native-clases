@@ -76,13 +76,13 @@ class Clase16 extends Component{
                      {
                         this.state.logueado == false ?
                         <Drawer.Navigator>
-                            <Drawer.Screen name="Login" component={()=> <Login error={this.state.errores} loguearse={(email,contraseña)=>this.login(email,contraseña)}/>}/>
-                            <Drawer.Screen name="Register" component={()=> <Register error={this.state.errores} registrarse={(email,contraseña)=>this.register(email,contraseña)}/>}/>
+                            <Drawer.Screen name="Login" component={(screenprops)=> <Login error={this.state.errores} loguearse={(email,contraseña)=>this.login(email,contraseña)} screenprops={screenprops}/>}/>
+                            <Drawer.Screen name="Register" component={(screenprops)=> <Register error={this.state.errores} registrarse={(email,contraseña)=>this.register(email,contraseña)} screenprops={screenprops}/>}/>
                         </Drawer.Navigator>:
                         <Drawer.Navigator>
                             <Drawer.Screen name="Home" component={()=> <Home/>} />
-                            <Drawer.Screen name="Nuevo Posteo" component={()=> <NewPostForm/>} />
-                            <Drawer.Screen name="Posteos" component={()=> <Posteos/>} />
+                            <Drawer.Screen name="Nuevo Posteo" component={(screenprops)=> <NewPostForm screenprops={screenprops}/>} />
+                            <Drawer.Screen name="Posteos" component={(screenprops)=> <Posteos screenprops={screenprops}/>} />
                             <Drawer.Screen name="Perfil" component={()=> <Perfil desloguearse={()=>this.desloguearse()} />} />
                         </Drawer.Navigator>                                          
                     }                                                        

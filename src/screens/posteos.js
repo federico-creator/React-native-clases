@@ -19,7 +19,7 @@ class Posteos extends Component{
     }
 
     showPost(){
-        db.collection("posteos").onSnapshot((docs)=>{
+        db.collection("posteos").where("user", "==", "f@f.com").limit(2)/* .orderBy("createdAt","desc") */.onSnapshot((docs)=>{
             let posteos = []
             docs.forEach((doc)=>{
                 posteos.push({
@@ -40,7 +40,7 @@ class Posteos extends Component{
             <Text>Página de posteos</Text>
             <FlatList  data={this.state.post}
             keyExtractor={(data)=> data.id}
-            renderItem={(data)=>( <Posts data={data}/> )}  >
+            renderItem={(item)=>( <Posts data={item}/> )}  >
 
         </FlatList>
 
